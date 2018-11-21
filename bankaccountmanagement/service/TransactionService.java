@@ -48,7 +48,7 @@ public class TransactionService {
         log.debug("Request to get all Customers");
         return this.transactionRepository.findAll()
                 .stream()
-                .map(CustomerService::mapToDto)
+                .map(TransactionService::mapToDto)
                 .collect(Collectors.toList());
     }
 
