@@ -36,12 +36,10 @@ public class AccountService {
     public AccountDto create(AccountDto accountDto) {
         log.debug("Request to create account : {}", accountDto);
         return mapToDto(
-                        new Account(
-                                //accountDto.getBalance(),
-                                //new Customer(accountDto.getCustomer().,
-                                //accountDto.getTransactions()
-                        )
-                );
+                this.accountRepository.save(
+                        dtoToMap(accountDto)
+                )
+            );
     }
 
     public List<AccountDto> findAll() {
@@ -74,6 +72,17 @@ public class AccountService {
                     account.getBalance(),
                     CustomerService.mapToDto(account.getCustomer()),
                     account.getTransactions().stream().map(TransactionService::mapToDto).collect(Collectors.toList())
+            );
+        }
+        return null;
+    }
+    
+    public static Account dtoToMap(AccountDto accountDto) {
+        if (accountDto != null) {
+            return new Account(
+                    accountDto.getBalance(),
+                    CustomerService.dtoToMap(accountDto.getCustomer()),
+                    accountDto.getTransactions().stream().map(TransactionService::dtoToMap).collect(Collectors.toList())
             );
         }
         return null;

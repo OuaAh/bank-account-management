@@ -36,13 +36,7 @@ public class CustomerService {
         log.debug("Request to create Customer : {}", customerDto);
         return mapToDto(
                 this.customerRepository.save(
-                        new Customer(
-//                                customerDto.getName(),
-//                                customerDto.getAccounts()
-//                                .stream()
-//                                .map(CustomerService::mapToDto)
-//                                .collect(Collectors.toList())
-                           )
+                    dtoToMap(customerDto)
                 )
         );
     }
@@ -77,6 +71,17 @@ public class CustomerService {
                     customer.getName(),
                     customer.getAccounts().stream().
                             map(AccountService::mapToDto).collect(Collectors.toList())
+            );
+        }
+        return null;
+    }
+    
+    public static Customer dtoToMap(CustomerDto customerDto) {
+        if (customerDto != null) {
+            return new Customer(
+                    customerDto.getName(),
+                    customerDto.getAccounts().stream().
+                            map(AccountService::dtoToMap).collect(Collectors.toList())
             );
         }
         return null;

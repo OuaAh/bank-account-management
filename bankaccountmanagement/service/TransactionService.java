@@ -36,11 +36,9 @@ public class TransactionService {
     public TransactionDto create(TransactionDto transactionDto) {
         log.debug("Request to create Customer : {}", transactionDto);
         return mapToDto(
-                        new Transaction(
-                                //transactionDto.getAmount(),
-                                //transactionDto.getTransactionType(),
-                                //AccountService.mapToDto(transactionDto.getAccount())
-                            )
+                this.transactionRepository.save(
+                        dtoToMap(transactionDto)
+                )
         );
     }
 
@@ -74,6 +72,17 @@ public class TransactionService {
                     transaction.getAmount(),
                     transaction.getTransactionType(),
                     AccountService.mapToDto(transaction.getAccount())
+            );
+        }
+        return null;
+    }
+    
+    public static Transaction dtoToMap(TransactionDto transactionDto) {
+        if (transactionDto != null) {
+            return new Transaction(
+                    transactionDto.getAmount(),
+                    transactionDto.getTransactionType(),
+                    AccountService.dtoToMap(transactionDto.getAccount())
             );
         }
         return null;
