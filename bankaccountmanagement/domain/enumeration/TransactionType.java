@@ -7,7 +7,7 @@ package tn.ensi.ilsi.bankaccountmanagement.domain.enumeration;
 
 /**
  *
- * @author x555ld
+ * @author GROUP_2
  */
 
 

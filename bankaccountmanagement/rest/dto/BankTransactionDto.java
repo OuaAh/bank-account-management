@@ -10,9 +10,9 @@ import tn.ensi.ilsi.bankaccountmanagement.domain.enumeration.TransactionType;
 
 /**
  *
- * @author x555ld
+ * @author GROUP_2
  */
-public class TransactionDto {
+public class BankTransactionDto {
     
     private long id;
     
@@ -20,17 +20,17 @@ public class TransactionDto {
     
     private TransactionType transactionType;
     
-    private AccountDto account;
+    private Long accountID;
 
-    public TransactionDto() {
+    public BankTransactionDto() {
         // JACKSON
     }
 
-    public TransactionDto(long id, BigDecimal amount, TransactionType transactionType, AccountDto account) {
+    public BankTransactionDto(long id, BigDecimal amount, TransactionType transactionType, Long accountID) {
         this.id = id;
         this.amount = amount;
         this.transactionType = transactionType;
-        this.account = account;
+        this.accountID = accountID;
     }
 
     public long getId() {
@@ -45,8 +45,8 @@ public class TransactionDto {
         return transactionType;
     }
 
-    public AccountDto getAccount() {
-        return account;
+    public Long getAccountID() {
+        return accountID;
     }
 
     public void setId(long id) {
@@ -61,7 +61,8 @@ public class TransactionDto {
         this.transactionType = transactionType;
     }
 
-    public void setAccount(AccountDto account) {
-        this.account = account;
-    }    
+    public void setAccountID(Long accountID) {
+        this.accountID = accountID;
+    }
+    
 }

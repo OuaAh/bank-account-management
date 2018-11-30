@@ -5,7 +5,10 @@
  */
 package tn.ensi.ilsi.bankaccountmanagement.service;
 
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.ensi.ilsi.bankaccountmanagement.repository.AccountRepository;
 import tn.ensi.ilsi.bankaccountmanagement.domain.Account;
+import tn.ensi.ilsi.bankaccountmanagement.domain.Customer;
+import tn.ensi.ilsi.bankaccountmanagement.repository.CustomerRepository;
 import tn.ensi.ilsi.bankaccountmanagement.rest.dto.AccountDto;
 
 /**
  *
- * @author x555ld
+ * @author GROUP_2
  */
 
 @Service
@@ -27,19 +32,28 @@ public class AccountService {
     private final Logger log = LoggerFactory.getLogger(AccountService.class);
     
     private final AccountRepository accountRepository;
+    private final CustomerRepository customerRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository,CustomerRepository customerRepository) {
         this.accountRepository = accountRepository;
+        this.customerRepository = customerRepository;
     }
   
-    
     public AccountDto create(AccountDto accountDto) {
-        log.debug("Request to create account : {}", accountDto);
+        log.debug("Request to create Account : {}", accountDto);
+        
+        Customer customer = this.customerRepository.findById(accountDto.getCustomerId())
+        .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + accountDto.getCustomerId()));
+        
         return mapToDto(
-                this.accountRepository.save(
-                        dtoToMap(accountDto)
-                )
-            );
+            this.accountRepository.save(
+                    new Account(
+                            accountDto.getBalance(), 
+                            customer,
+                            Collections.emptyList()
+                    )
+            )
+        );
     }
 
     public List<AccountDto> findAll() {
@@ -57,12 +71,12 @@ public class AccountService {
     }
 
     public void delete(Long id) {
-        log.debug("Request to delete account : {}", id);
+        log.debug("Request to delete Account : {}", id);
 
-        Account transaction = this.accountRepository.findById(id)
+        Account account = this.accountRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + id));
 
-        this.accountRepository.save(transaction);
+        this.accountRepository.delete(account);
     }
 
     public static AccountDto mapToDto(Account account) {
@@ -70,19 +84,8 @@ public class AccountService {
             return new AccountDto(
                     account.getId(),
                     account.getBalance(),
-                    CustomerService.mapToDto(account.getCustomer()),
+                    account.getCustomer().getId(),
                     account.getTransactions().stream().map(TransactionService::mapToDto).collect(Collectors.toList())
-            );
-        }
-        return null;
-    }
-    
-    public static Account dtoToMap(AccountDto accountDto) {
-        if (accountDto != null) {
-            return new Account(
-                    accountDto.getBalance(),
-                    CustomerService.dtoToMap(accountDto.getCustomer()),
-                    accountDto.getTransactions().stream().map(TransactionService::dtoToMap).collect(Collectors.toList())
             );
         }
         return null;

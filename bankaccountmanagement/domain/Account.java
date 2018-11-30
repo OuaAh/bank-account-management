@@ -5,39 +5,47 @@
  */
 package tn.ensi.ilsi.bankaccountmanagement.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
- * @author Group 2
+ * @author GROUP_2
  */
 
 @Entity
+@Table(name = "account")
 public class Account extends AbstractEntity{
     
+    @Column(name = "balance")
     private BigDecimal balance;
     
     @ManyToOne
-    private Customer customer; //As You said it's unuseful, But I would try!
+    private Customer customer; 
 
     @OneToMany(mappedBy="account")
-    private Collection<Transaction> transactions;
+    @JsonIgnore
+    private List<BankTransaction> transactions;
 
     public Account() {
         super();
         // JPA! super() is better No?
     }
 
-    public Account(BigDecimal balance, Customer customer) {
+    public Account(BigDecimal balance, Customer customer, List<BankTransaction> transactions) {
         this.balance = balance;
         this.customer = customer;
+        this.transactions = transactions;
     }
-
+    
     public BigDecimal getBalance() {
         return balance;
     }
@@ -46,7 +54,7 @@ public class Account extends AbstractEntity{
         return customer;
     }
 
-    public Collection<Transaction> getTransactions() {
+    public Collection<BankTransaction> getTransactions() {
         return transactions;
     }
 
@@ -58,7 +66,7 @@ public class Account extends AbstractEntity{
         this.customer = customer;
     }
 
-    public void setTransactions(Collection<Transaction> transactions) {
+    public void setTransactions(List<BankTransaction> transactions) {
         this.transactions = transactions;
     }
 

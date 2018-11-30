@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tn.ensi.ilsi.bankaccountmanagement.rest.dto.TransactionDto;
+import static tn.ensi.ilsi.bankaccountmanagement.common.Web.API;
+import tn.ensi.ilsi.bankaccountmanagement.rest.dto.BankTransactionDto;
 import tn.ensi.ilsi.bankaccountmanagement.service.TransactionService;
 
 /**
@@ -20,7 +21,7 @@ import tn.ensi.ilsi.bankaccountmanagement.service.TransactionService;
  * @author x555ld
  */
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping(API+"/transactions")
 public class TransactionRest {
     
     private final TransactionService transactionService;
@@ -30,17 +31,17 @@ public class TransactionRest {
     }
 
     @GetMapping
-    public List<TransactionDto> findAll() {
+    public List<BankTransactionDto> findAll() {
         return this.transactionService.findAll();
     }
 
     @GetMapping("/{id}")
-    public TransactionDto findById(@PathVariable Long id) {
+    public BankTransactionDto findById(@PathVariable Long id) {
         return this.transactionService.findById(id);
     }
 
     @PostMapping
-    public TransactionDto create(TransactionDto accountDto) {
+    public BankTransactionDto deposit(BankTransactionDto accountDto) {
         return this.transactionService.create(accountDto);
     }
 

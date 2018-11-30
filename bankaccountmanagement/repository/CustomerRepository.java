@@ -10,7 +10,7 @@ import tn.ensi.ilsi.bankaccountmanagement.domain.Customer;
 
 /**
  *
- * @author x555ld
+ * @author GROUP_2
  */
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
     

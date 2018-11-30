@@ -4,16 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
  * Base Entity class for entities which will hold creation and last modification
  * date.
+ * @author GROUP_2
  */
-
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractEntity implements Serializable {

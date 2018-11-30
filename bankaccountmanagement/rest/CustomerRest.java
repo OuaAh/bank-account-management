@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static tn.ensi.ilsi.bankaccountmanagement.common.Web.API;
 import tn.ensi.ilsi.bankaccountmanagement.rest.dto.CustomerDto;
 import tn.ensi.ilsi.bankaccountmanagement.service.CustomerService;
 
@@ -20,7 +21,7 @@ import tn.ensi.ilsi.bankaccountmanagement.service.CustomerService;
  * @author x555ld
  */
 @RestController
-@RequestMapping("/customers")
+@RequestMapping(API+"/customers")
 public class CustomerRest {
     private final CustomerService customerService;
 

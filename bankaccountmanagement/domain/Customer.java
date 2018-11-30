@@ -5,31 +5,48 @@
  */
 package tn.ensi.ilsi.bankaccountmanagement.domain;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
+import javax.validation.constraints.Email;
 
 /**
  *
- * @author Group 2
+ * @author GROUP_2
  */
 
 @Entity
+@Table(name = "customer")
 public class Customer extends AbstractEntity{
     
+    @Column(name = "name")
     private String name;
     
+    @Column(name = "cin")
+    private String cin;
+    
+    @Email
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "telephone")
+    private String telephone;
+    
     @OneToMany(mappedBy="customer")
-    private Collection<Account> accounts;
+    @JsonIgnore
+    private Set<Account> accounts;
 
     public Customer() {
         super();
         //JPA, efficient solution No?
     }
 
-    public Customer(String name, Collection<Account> accounts) {
+    public Customer(String name, String cin, String email, String telephone, Set<Account> accounts) {
         this.name = name;
+        this.cin = cin;
+        this.email = email;
+        this.telephone = telephone;
         this.accounts = accounts;
     }
 
@@ -37,7 +54,19 @@ public class Customer extends AbstractEntity{
         return name;
     }
 
-    public Collection<Account> getAccounts() {
+    public String getCin() {
+        return cin;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
@@ -45,20 +74,26 @@ public class Customer extends AbstractEntity{
         this.name = name;
     }
 
-    public void setAccounts(Collection<Account> accounts) {
-        this.accounts = accounts;
+    public void setCin(String cin) {
+        this.cin = cin;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" + "name=" + name + ", accounts=" + accounts + '}';
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.name);
-        hash = 23 * hash + Objects.hashCode(this.accounts);
+        hash = 67 * hash + Objects.hashCode(this.cin);
         return hash;
     }
 
@@ -74,14 +109,16 @@ public class Customer extends AbstractEntity{
             return false;
         }
         final Customer other = (Customer) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.accounts, other.accounts)) {
+        if (!Objects.equals(this.cin, other.cin)) {
             return false;
         }
         return true;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Customer{" + "name=" + name + ", cin=" + cin + ", email=" + email 
+                + ", telephone=" + telephone + ", accounts=" + accounts + '}';
+    }
     
 }

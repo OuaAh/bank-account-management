@@ -6,29 +6,29 @@
 package tn.ensi.ilsi.bankaccountmanagement.rest.dto;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
- * @author x555ld
+ * @author GROUP_2
  */
 public class AccountDto {
     private Long id;
     
     private BigDecimal balance;
     
-    private CustomerDto customer;
+    private Long customerId;
     
-    private Collection<TransactionDto> transactions;
+    private List<BankTransactionDto> transactions;
 
     public AccountDto() {
         // JACKSON
     }
 
-    public AccountDto(Long id, BigDecimal balance, CustomerDto customer, Collection<TransactionDto> transactions) {
+    public AccountDto(Long id, BigDecimal balance, Long customerId, List<BankTransactionDto> transactions) {
         this.id = id;
         this.balance = balance;
-        this.customer = customer;
+        this.customerId = customerId;
         this.transactions = transactions;
     }
 
@@ -40,11 +40,11 @@ public class AccountDto {
         return balance;
     }
 
-    public CustomerDto getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public Collection<TransactionDto> getTransactions() {
+    public List<BankTransactionDto> getTransactions() {
         return transactions;
     }
 
@@ -56,12 +56,12 @@ public class AccountDto {
         this.balance = balance;
     }
 
-    public void setCustomer(CustomerDto customer) {
-        this.customer = customer;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
-    public void setTransactions(Collection<TransactionDto> transactions) {
+    public void setTransactions(List<BankTransactionDto> transactions) {
         this.transactions = transactions;
-    }   
+    }
     
 }

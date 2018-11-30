@@ -5,22 +5,21 @@
  */
 package tn.ensi.ilsi.bankaccountmanagement.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import tn.ensi.ilsi.bankaccountmanagement.domain.enumeration.TransactionType;
 
 /**
  *
- * @author Group 2
+ * @author GROUP_2
  */
 
 @Entity
-public class Transaction extends AbstractEntity{
+@Table(name = "bank_transaction")
+public class BankTransaction extends AbstractEntity{
     
     private BigDecimal amount;
     
@@ -29,12 +28,12 @@ public class Transaction extends AbstractEntity{
     @ManyToOne
     private Account account;
 
-    public Transaction() {
+    public BankTransaction() {
         super();
         //JPA! super better!
     }
 
-    public Transaction(BigDecimal amount, TransactionType transactionType,
+    public BankTransaction(BigDecimal amount, TransactionType transactionType,
             Account account) {
         this.amount = amount;
         this.transactionType = transactionType;
@@ -91,7 +90,7 @@ public class Transaction extends AbstractEntity{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Transaction other = (Transaction) obj;
+        final BankTransaction other = (BankTransaction) obj;
         if (!Objects.equals(this.amount, other.amount)) {
             return false;
         }

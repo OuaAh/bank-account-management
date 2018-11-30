@@ -5,15 +5,19 @@
  */
 package tn.ensi.ilsi.bankaccountmanagement.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tn.ensi.ilsi.bankaccountmanagement.domain.Transaction;
-import tn.ensi.ilsi.bankaccountmanagement.repository.TransactionRepository;
-import tn.ensi.ilsi.bankaccountmanagement.rest.dto.TransactionDto;
+import tn.ensi.ilsi.bankaccountmanagement.domain.Account;
+import tn.ensi.ilsi.bankaccountmanagement.domain.BankTransaction;
+import tn.ensi.ilsi.bankaccountmanagement.domain.enumeration.TransactionType;
+import tn.ensi.ilsi.bankaccountmanagement.repository.AccountRepository;
+import tn.ensi.ilsi.bankaccountmanagement.rest.dto.BankTransactionDto;
+import tn.ensi.ilsi.bankaccountmanagement.repository.BankTransactionRepository;
 
 /**
  *
@@ -27,23 +31,61 @@ public class TransactionService {
         
     private final Logger log = LoggerFactory.getLogger(CustomerService.class);
     
-    private final TransactionRepository transactionRepository;
+    private final BankTransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
 
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(BankTransactionRepository transactionRepository, AccountRepository accountRepository) {
         this.transactionRepository=transactionRepository;
+        this.accountRepository=accountRepository;
     }
     
-    public TransactionDto create(TransactionDto transactionDto) {
-        log.debug("Request to create Customer : {}", transactionDto);
+    public BankTransactionDto create(BankTransactionDto transactionDto) {
+        log.debug("Request to create Transaction from : {} with {}", transactionDto.getAccountID(), transactionDto.getAmount());
+        Account account = this.accountRepository.findById(transactionDto.getAccountID())
+        .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + transactionDto.getAccountID()));
+        if(transactionDto.getTransactionType()==TransactionType.Deposit){
+            account.setBalance(account.getBalance().add(transactionDto.getAmount()));     
+        }
+        else{
+            if (account.getBalance().subtract(transactionDto.getAmount()).equals(new BigDecimal("0"))){
+                account.setBalance(account.getBalance().subtract(transactionDto.getAmount()));
+            }
+            else {
+                throw new IllegalStateException("Cannot find Customer with id " + transactionDto.getAmount());   
+            }
+        }
         return mapToDto(
-                this.transactionRepository.save(
-                        dtoToMap(transactionDto)
-                )
+            this.transactionRepository.save(
+                    new BankTransaction(
+                            transactionDto.getAmount(),
+                            transactionDto.getTransactionType(),
+                            account)
+            )
         );
     }
 
-    public List<TransactionDto> findAll() {
-        log.debug("Request to get all Customers");
+    public BankTransactionDto withdraw(Long id, BigDecimal amount) {
+        log.debug("Request to create Transaction withdrow from : {} with {}", id, amount);
+        Account account = this.accountRepository.findById(id)
+        .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + id));
+        if (account.getBalance().subtract(amount).equals(new BigDecimal("0"))){
+            account.setBalance(account.getBalance().subtract(amount));
+        }
+        else {
+            throw new IllegalStateException("Cannot find Customer with id " + id);   
+        }
+        return mapToDto(
+            this.transactionRepository.save(
+                    new BankTransaction(
+                            amount,
+                            TransactionType.withdrow,
+                            account)
+            )
+        );
+    }
+    
+    public List<BankTransactionDto> findAll() {
+        log.debug("Request to get all Transactions");
         return this.transactionRepository.findAll()
                 .stream()
                 .map(TransactionService::mapToDto)
@@ -51,38 +93,27 @@ public class TransactionService {
     }
 
     @Transactional(readOnly = true)
-    public TransactionDto findById(Long id) {
-        log.debug("Request to get Customer : {}", id);
+    public BankTransactionDto findById(Long id) {
+        log.debug("Request to get Transaction : {}", id);
         return this.transactionRepository.findById(id).map(TransactionService::mapToDto).orElse(null);
     }
 
     public void delete(Long id) {
-        log.debug("Request to delete Customer : {}", id);
+        log.debug("Request to delete Transaction : {}", id);
 
-        Transaction transaction = this.transactionRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + id));
+        BankTransaction transaction = this.transactionRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Cannot find Transaction with id " + id));
 
-        this.transactionRepository.save(transaction);
+        this.transactionRepository.delete(transaction);
     }
 
-    public static TransactionDto mapToDto(Transaction transaction) {
+    public static BankTransactionDto mapToDto(BankTransaction transaction) {
         if (transaction != null) {
-            return new TransactionDto(
+            return new BankTransactionDto(
                     transaction.getId(),
                     transaction.getAmount(),
                     transaction.getTransactionType(),
-                    AccountService.mapToDto(transaction.getAccount())
-            );
-        }
-        return null;
-    }
-    
-    public static Transaction dtoToMap(TransactionDto transactionDto) {
-        if (transactionDto != null) {
-            return new Transaction(
-                    transactionDto.getAmount(),
-                    transactionDto.getTransactionType(),
-                    AccountService.dtoToMap(transactionDto.getAccount())
+                    transaction.getId()
             );
         }
         return null;

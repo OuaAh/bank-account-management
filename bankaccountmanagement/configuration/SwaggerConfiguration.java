@@ -9,7 +9,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  *
- * @author n.lamouchi
+ * @author GROUP_2
  */
 @Configuration
 public class SwaggerConfiguration {

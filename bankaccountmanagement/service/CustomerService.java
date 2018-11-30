@@ -5,6 +5,7 @@
  */
 package tn.ensi.ilsi.bankaccountmanagement.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import tn.ensi.ilsi.bankaccountmanagement.rest.dto.CustomerDto;
 
 /**
  *
- * @author group2
+ * @author GROUP_2
  */
 
 @Service
@@ -36,7 +37,13 @@ public class CustomerService {
         log.debug("Request to create Customer : {}", customerDto);
         return mapToDto(
                 this.customerRepository.save(
-                    dtoToMap(customerDto)
+                    new Customer(
+                            customerDto.getName(),
+                            customerDto.getCin(),
+                            customerDto.getEmail(),
+                            customerDto.getName(),
+                            Collections.EMPTY_SET
+                    )
                 )
         );
     }
@@ -61,7 +68,7 @@ public class CustomerService {
         Customer customer = this.customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Cannot find Customer with id " + id));
 
-        this.customerRepository.save(customer);
+        this.customerRepository.delete(customer);
     }
 
     public static CustomerDto mapToDto(Customer customer) {
@@ -69,19 +76,10 @@ public class CustomerService {
             return new CustomerDto(
                     customer.getId(),
                     customer.getName(),
-                    customer.getAccounts().stream().
-                            map(AccountService::mapToDto).collect(Collectors.toList())
-            );
-        }
-        return null;
-    }
-    
-    public static Customer dtoToMap(CustomerDto customerDto) {
-        if (customerDto != null) {
-            return new Customer(
-                    customerDto.getName(),
-                    customerDto.getAccounts().stream().
-                            map(AccountService::dtoToMap).collect(Collectors.toList())
+                    customer.getEmail(),
+                    customer.getTelephone(),
+                    customer.getCin(),
+                    customer.getAccounts().stream().map(AccountService::mapToDto).collect(Collectors.toSet())
             );
         }
         return null;

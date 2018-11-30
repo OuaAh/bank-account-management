@@ -6,12 +6,12 @@
 package tn.ensi.ilsi.bankaccountmanagement.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tn.ensi.ilsi.bankaccountmanagement.domain.Transaction;
+import tn.ensi.ilsi.bankaccountmanagement.domain.BankTransaction;
 
 /**
  *
- * @author x555ld
+ * @author GROUP_2
  */
-public interface TransactionRepository extends JpaRepository<Transaction, Long>{
+public interface BankTransactionRepository extends JpaRepository<BankTransaction, Long>{
     
 }

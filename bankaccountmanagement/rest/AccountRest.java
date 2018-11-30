@@ -12,15 +12,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static tn.ensi.ilsi.bankaccountmanagement.common.Web.API;
 import tn.ensi.ilsi.bankaccountmanagement.rest.dto.AccountDto;
 import tn.ensi.ilsi.bankaccountmanagement.service.AccountService;
 
 /**
  *
- * @author x555ld
+ * @author GROUP_2
  */
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping(API+"/accounts")
 public class AccountRest {
     
     private final AccountService accountService;

@@ -5,11 +5,11 @@
  */
 package tn.ensi.ilsi.bankaccountmanagement.rest.dto;
 
-import java.util.Collection;
+import java.util.Set;
 
 /**
  *
- * @author x555ld
+ * @author GROUP_2
  */
 public class CustomerDto {
     
@@ -17,15 +17,24 @@ public class CustomerDto {
     
     private String name;
     
-    private Collection<AccountDto> accounts;
+    private String email;
+    
+    private String telephone;
+    
+    private String cin;
+    
+    private Set<AccountDto> accounts;
 
     public CustomerDto() {
         // JACKSON
     }
 
-    public CustomerDto(Long id, String name, Collection<AccountDto> accounts) {
+    public CustomerDto(Long id, String name, String email, String telephone, String cin, Set<AccountDto> accounts) {
         this.id = id;
         this.name = name;
+        this.email = email;
+        this.telephone = telephone;
+        this.cin = cin;
         this.accounts = accounts;
     }
 
@@ -37,7 +46,19 @@ public class CustomerDto {
         return name;
     }
 
-    public Collection<AccountDto> getAccounts() {
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public String getCin() {
+        return cin;
+    }
+
+    public Set<AccountDto> getAccounts() {
         return accounts;
     }
 
@@ -49,10 +70,20 @@ public class CustomerDto {
         this.name = name;
     }
 
-    public void setAccounts(Collection<AccountDto> accounts) {
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public void setCin(String cin) {
+        this.cin = cin;
+    }
+
+    public void setAccounts(Set<AccountDto> accounts) {
         this.accounts = accounts;
     }
-    
-    
-    
+      
 }
