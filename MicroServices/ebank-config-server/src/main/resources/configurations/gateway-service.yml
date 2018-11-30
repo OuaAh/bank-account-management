@@ -1,0 +1,13 @@
+server:
+    port: 8222
+zuul:
+  routes:
+    order:
+      path: /order/**
+      serviceId: orderApp
+    bank:
+      path: /bank/**
+      serviceId: bankApp
+    account:
+      path: /customer/**
+      serviceId: accountApp
