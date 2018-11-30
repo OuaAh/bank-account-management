@@ -27,5 +27,61 @@ public class TransactionDto {
   private String type ;
   
   private AccountDto account;
+
+public TransactionDto() {
+	super();
+	// TODO Auto-generated constructor stub
+}
+
+public TransactionDto(Long id, Date dateOperation, Long amount, String type, AccountDto account) {
+	super();
+	this.id = id;
+	this.dateOperation = dateOperation;
+	this.amount = amount;
+	this.type = type;
+	this.account = account;
+}
+
+public Long getId() {
+	return id;
+}
+
+public void setId(Long id) {
+	this.id = id;
+}
+
+public Date getDateOperation() {
+	return dateOperation;
+}
+
+public void setDateOperation(Date dateOperation) {
+	this.dateOperation = dateOperation;
+}
+
+public Long getAmount() {
+	return amount;
+}
+
+public void setAmount(Long amount) {
+	this.amount = amount;
+}
+
+public String getType() {
+	return type;
+}
+
+public void setType(String type) {
+	this.type = type;
+}
+
+public AccountDto getAccount() {
+	return account;
+}
+
+public void setAccount(AccountDto account) {
+	this.account = account;
+}
+  
+  
   
 }

@@ -9,6 +9,8 @@ import com.accountApp.accountApp.service.TransactionService;
 import com.commonApp.dto.TransactionDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,9 @@ import static com.commonApp.utils.Web.API;
 @RestController
 @RequestMapping(API + "/transaction")
 public class TransactionWS {
-  private final TransactionService transactionService;
+	
+	@Autowired
+  private TransactionService transactionService;
 
  
   @GetMapping

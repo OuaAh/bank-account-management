@@ -9,6 +9,8 @@ import com.accountApp.accountApp.service.AccountService;
 import com.commonApp.dto.AccountDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,8 @@ import static com.commonApp.utils.Web.API;
 @RestController
 @RequestMapping(API + "/account")
 public class AccountWS {
-  private final AccountService accountService;
+	@Autowired
+  private  AccountService accountService;
 
  
   @GetMapping

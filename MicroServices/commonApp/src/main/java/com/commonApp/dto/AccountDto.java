@@ -25,4 +25,53 @@ public class AccountDto {
 
   private Long customerId;
   
+  
+
+public AccountDto() {
+	super();
+	// TODO Auto-generated constructor stub
+}
+
+public AccountDto(Long id, Long balance, Long bankId, Long customerId) {
+	super();
+	this.id = id;
+	this.balance = balance;
+	this.bankId = bankId;
+	this.customerId = customerId;
+}
+
+public Long getId() {
+	return id;
+}
+
+public void setId(Long id) {
+	this.id = id;
+}
+
+public Long getBalance() {
+	return balance;
+}
+
+public void setBalance(Long balance) {
+	this.balance = balance;
+}
+
+public Long getBankId() {
+	return bankId;
+}
+
+public void setBankId(Long bankId) {
+	this.bankId = bankId;
+}
+
+public Long getCustomerId() {
+	return customerId;
+}
+
+public void setCustomerId(Long customerId) {
+	this.customerId = customerId;
+}
+  
+  
+  
 }
