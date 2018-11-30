@@ -1,3 +1,3 @@
 # bank-account-management
-Project "playing with java microservices".
-Group 2.
+Project "playing with java microservices using Docker and kubernetes".
+GROUP_2
