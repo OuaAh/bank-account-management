@@ -1,0 +1,10 @@
+server:
+    port: 8222
+zuul:
+  routes:
+    serviceOffice:
+      path: /accountsmanagement/**
+      serviceId: accountsmanagement
+    intervention:
+      path: /customermanagement/**
+      serviceId: customermanagement
