@@ -1,4 +1,4 @@
-package tn.ensi.ilsi.accountsmanagement_uservice.configuration;
+package tn.ensi.ilsi.configuraions;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;

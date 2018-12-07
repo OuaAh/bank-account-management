@@ -1,4 +1,4 @@
-package tn.ensi.ilsi.accountsmanagement_uservice.configuration;
+package tn.ensi.ilsi.accountsmanagement_uservice.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
